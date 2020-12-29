@@ -12,7 +12,7 @@ export default {
   data() {
     return {
       counter: 0,
-      greeting: "Hello  world",
+      greeting: "Hello world",
     };
   },
   methods: {

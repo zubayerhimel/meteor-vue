@@ -28,6 +28,7 @@
     "eslint-plugin-prettier": "^3.3.0",
     "eslint-plugin-vue": "^7.0.0-beta.4",
     "prettier": "^2.2.1",
-    "vue-eslint-parser": "^7.3.0"
+    "vue-eslint-parser": "^7.3.0",
+    "vuetify": "^2.4.0"
   }
 }
