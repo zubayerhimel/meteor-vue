@@ -14,6 +14,7 @@
               <th class="text-left">Email</th>
               <th class="text-left">Phone number</th>
               <th class="text-left">Date of birth</th>
+              <th class="text-left">Subjects</th>
               <th class="text-left">Action</th>
             </tr>
           </thead>
@@ -26,6 +27,11 @@
               <td>{{ item.email }}</td>
               <td>{{ item.phone_number }}</td>
               <td>{{ item.date }}</td>
+              <td>
+                <span v-for="(subject, index) in item.subjects" :key="index">
+                  {{ subject }} ,
+                </span>
+              </td>
               <td>
                 <v-btn
                   icon
@@ -176,7 +182,9 @@ export default {
   },
   meteor: {
     getStudentInformation() {
-      return Students.find({}).fetch();
+      let information = Students.find({}).fetch();
+      console.log(information);
+      return information;
     },
   },
   watch: {

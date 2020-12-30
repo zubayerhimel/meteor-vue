@@ -75,7 +75,7 @@ export default {
       });
       if (checkPreviousData && checkPreviousData !== null) {
         for (let i = 0; i < students.length; i++) {
-          console.log(students[i]);
+          // console.log(students[i]);
           if (checkPreviousData.students.indexOf(students[i]) === -1) {
             checkPreviousData.students.push(students[i]);
           }
@@ -97,6 +97,16 @@ export default {
             this.text = "Information added successfully";
           }
         });
+      }
+
+      for (let i = 0; i < this.students.length; i++) {
+        console.log(this.students[i]);
+        let student_info = Students.findOne({ name: this.students[i] });
+        console.log(student_info);
+        if (student_info.subjects.indexOf(this.subject_name) === -1) {
+          student_info.subjects.push(this.subject_name);
+        }
+        Students.update({ _id: student_info._id }, student_info);
       }
     },
   },

@@ -123,6 +123,7 @@ export default {
         email: this.email,
         phone_number: this.phone_number,
         date: this.date,
+        subjects: [],
       };
       Meteor.call("addStudentsInfo", information, (err, res) => {
         if (err) {
