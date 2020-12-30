@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="!getStudentInformation">
+    <div v-if="getStudentInformation.length === 0">
       <div class="text-center">
         <h1>No information found</h1>
       </div>

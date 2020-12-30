@@ -1,6 +1,9 @@
 <template>
   <div>
-    <v-card>
+    <div v-if="getSubjectInformation.length === 0">
+      <h1 class="text-center">No information found</h1>
+    </div>
+    <v-card v-else>
       <v-simple-table>
         <template v-slot:default>
           <thead>
@@ -21,7 +24,7 @@
               <td>
                 <v-btn
                   icon
-                  @click="deleteInfo(item._id)"
+                  @click="openConfirmModal(item._id)"
                   color="pink lighten-1"
                   class="white--text"
                   ><v-icon>mdi-delete</v-icon></v-btn
@@ -32,6 +35,27 @@
         </template>
       </v-simple-table>
     </v-card>
+    <template>
+      <v-row justify="center">
+        <v-dialog v-model="confirmDialog" persistent max-width="390">
+          <v-card>
+            <v-card-title class="headline">
+              Are you sure you want to delete information?
+            </v-card-title>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="green darken-1" text @click="confirmDialog = false">
+                Cancel
+              </v-btn>
+              <v-btn color="red darken-1" text @click="deleteInfo">
+                Delete
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-row>
+    </template>
   </div>
 </template>
 
@@ -42,6 +66,7 @@ export default {
   data() {
     return {
       dialog: false,
+      confirmDialog: false,
       _id: "",
       subject_name: "",
       students: "",
@@ -54,8 +79,8 @@ export default {
     },
   },
   methods: {
-    deleteInfo(subjectId) {
-      Meteor.call("deleteSubjectInfo", subjectId, (err, res) => {
+    deleteInfo() {
+      Meteor.call("deleteSubjectInfo", this._id, (err, res) => {
         if (err) {
           console.log("Something went wrong");
         } else {
@@ -63,6 +88,11 @@ export default {
           this.text = "Deleted successfully";
         }
       });
+      this.confirmDialog = false;
+    },
+    openConfirmModal(subjectId) {
+      this.confirmDialog = true;
+      this._id = subjectId;
     },
   },
 };

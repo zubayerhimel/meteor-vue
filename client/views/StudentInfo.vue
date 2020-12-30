@@ -2,7 +2,6 @@
   <v-container>
     <AddStudentInfo />
     <br />
-    <div class="display-1">Information</div>
     <ViewStudentInformation />
   </v-container>
 </template>

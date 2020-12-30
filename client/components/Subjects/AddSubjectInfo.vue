@@ -34,7 +34,7 @@
         >
       </div>
     </v-form>
-    <v-snackbar v-model="isOpen" color="success" top right>
+    <v-snackbar v-model="isOpen" color="success" bottom left>
       <span class="text-center">
         {{ text }}
       </span>
@@ -75,7 +75,6 @@ export default {
       });
       if (checkPreviousData && checkPreviousData !== null) {
         for (let i = 0; i < students.length; i++) {
-          // console.log(students[i]);
           if (checkPreviousData.students.indexOf(students[i]) === -1) {
             checkPreviousData.students.push(students[i]);
           }
@@ -85,7 +84,7 @@ export default {
             console.log("Something went wrong");
           } else {
             this.isOpen = true;
-            this.text = "Information added successfully";
+            this.text = "Information upated successfully";
           }
         });
       } else {
@@ -100,9 +99,7 @@ export default {
       }
 
       for (let i = 0; i < this.students.length; i++) {
-        console.log(this.students[i]);
         let student_info = Students.findOne({ name: this.students[i] });
-        console.log(student_info);
         if (student_info.subjects.indexOf(this.subject_name) === -1) {
           student_info.subjects.push(this.subject_name);
         }
