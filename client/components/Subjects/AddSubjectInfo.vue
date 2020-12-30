@@ -63,6 +63,11 @@ export default {
     },
   },
   methods: {
+    /**
+     * This methods adds subject name and students related to that subject.
+     * CheckPreviousData is for checking if subject is already assigned in one
+     * student. If already assigned then don't add else add.
+     */
     addInformation() {
       const students = this.students;
       const subjectInformation = {
@@ -97,7 +102,7 @@ export default {
           }
         });
       }
-
+      // This is to add subjects to particular student table
       for (let i = 0; i < this.students.length; i++) {
         let student_info = Students.findOne({ name: this.students[i] });
         if (student_info.subjects.indexOf(this.subject_name) === -1) {

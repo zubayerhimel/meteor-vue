@@ -1,7 +1,9 @@
 <template>
   <div>
     <v-app-bar rounded="lg">
-      <v-toolbar-title>Meteor-Vue</v-toolbar-title>
+      <v-toolbar-title class="grey--text text--darken-3">
+        <router-link to="/"> Meteor-Vue </router-link>
+      </v-toolbar-title>
 
       <v-spacer></v-spacer>
 
