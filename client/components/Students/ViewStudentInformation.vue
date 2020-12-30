@@ -35,7 +35,7 @@
                 >
                 <v-btn
                   icon
-                  @click="deleteInfo(item._id)"
+                  @click="openConfirmModal(item._id)"
                   color="pink lighten-1"
                   class="white--text"
                   ><v-icon>mdi-delete</v-icon></v-btn
@@ -125,23 +125,19 @@
     </template>
     <template>
       <v-row justify="center">
-        <v-dialog v-model="confirmDilog" persistent max-width="290">
+        <v-dialog v-model="confirmDialog" persistent max-width="390">
           <v-card>
             <v-card-title class="headline">
-              Use Google's location service?
+              Are you sure you want to delete information?
             </v-card-title>
-            <v-card-text
-              >Let Google help apps determine location. This means sending
-              anonymous location data to Google, even when no apps are
-              running.</v-card-text
-            >
+
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="green darken-1" text @click="confirmDilog = false">
-                Disagree
+              <v-btn color="green darken-1" text @click="confirmDialog = false">
+                Cancel
               </v-btn>
-              <v-btn color="green darken-1" text @click="deleteInfo">
-                Agree
+              <v-btn color="red darken-1" text @click="deleteInfo">
+                Delete
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -192,8 +188,8 @@ export default {
     save(date) {
       this.$refs.menu.save(date);
     },
-    deleteInfo(studentId) {
-      Meteor.call("deleteStudentInfo", studentId, (err, res) => {
+    deleteInfo() {
+      Meteor.call("deleteStudentInfo", this._id, (err, res) => {
         if (err) {
           console.log("shows error toast");
         } else {
@@ -202,6 +198,11 @@ export default {
           this.text = "Deleted successfully";
         }
       });
+      this.confirmDialog = false;
+    },
+    openConfirmModal(studentId) {
+      this.confirmDialog = true;
+      this._id = studentId;
     },
     getInformationInModal(student) {
       this.dialog = true;

@@ -44,7 +44,7 @@
 
 <script>
 import { Meteor } from "meteor/meteor";
-import { Students } from "../../../imports/api/Models";
+import { Students, Subjects } from "../../../imports/api/Models";
 export default {
   data: () => ({
     valid: false,
@@ -65,31 +65,39 @@ export default {
   methods: {
     addInformation() {
       const students = this.students;
-      // console.log(students);
-
-      const studentIds = [];
-      for (let i = 0; i < this.studentInformations.length; i++) {
-        const currentData = this.studentInformations[i];
-        if (students.indexOf(currentData.name) !== -1) {
-          studentIds.push(currentData._id);
-        }
-      }
-      // console.log(studentIds);
       const subjectInformation = {
         subject_name: this.subject_name,
-        students: studentIds,
+        students: students || [],
       };
-      // console.log(subjectInformation);
-      // console.log(subjectInformation);
-      // console.log(this.studentInformations);
-      Meteor.call("addSubjectInfo", subjectInformation, (err, res) => {
-        if (err) {
-          console.log("Something went wrong");
-        } else {
-          this.isOpen = true;
-          this.text = "Information added successfully";
-        }
+
+      const checkPreviousData = Subjects.findOne({
+        subject_name: this.subject_name,
       });
+      if (checkPreviousData && checkPreviousData !== null) {
+        for (let i = 0; i < students.length; i++) {
+          console.log(students[i]);
+          if (checkPreviousData.students.indexOf(students[i]) === -1) {
+            checkPreviousData.students.push(students[i]);
+          }
+        }
+        Meteor.call("updateSubjectInfo", checkPreviousData, (err, res) => {
+          if (err) {
+            console.log("Something went wrong");
+          } else {
+            this.isOpen = true;
+            this.text = "Information added successfully";
+          }
+        });
+      } else {
+        Meteor.call("addSubjectInfo", subjectInformation, (err, res) => {
+          if (err) {
+            console.log("Something went wrong");
+          } else {
+            this.isOpen = true;
+            this.text = "Information added successfully";
+          }
+        });
+      }
     },
   },
 };
