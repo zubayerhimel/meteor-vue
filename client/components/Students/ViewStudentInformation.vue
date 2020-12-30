@@ -1,51 +1,58 @@
 <template>
   <div>
-    <v-simple-table>
-      <template v-slot:default>
-        <thead>
-          <tr>
-            <th class="text-left">Name</th>
-            <th class="text-left">Email</th>
-            <th class="text-left">Phone number</th>
-            <th class="text-left">Date of birth</th>
-            <th class="text-left">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            v-for="item in getStudentInformation.slice().reverse()"
-            :key="item.name"
-          >
-            <td>{{ item.name }}</td>
-            <td>{{ item.email }}</td>
-            <td>{{ item.phone_number }}</td>
-            <td>{{ item.date }}</td>
-            <td>
-              <v-btn
-                x-small
-                @click="getInformationInModal(item)"
-                color="amber lighten-1"
-                >Edit</v-btn
-              >
-              <v-btn
-                x-small
-                @click="deleteInfo(item._id)"
-                color="pink lighten-1"
-                class="white--text"
-                >Delete</v-btn
-              >
-            </td>
-          </tr>
-        </tbody>
-      </template>
-    </v-simple-table>
+    <div v-if="!getStudentInformation">
+      <div class="text-center">
+        <h1>No information found</h1>
+      </div>
+    </div>
+    <v-card v-else>
+      <v-simple-table>
+        <template v-slot:default>
+          <thead>
+            <tr>
+              <th class="text-left">Name</th>
+              <th class="text-left">Email</th>
+              <th class="text-left">Phone number</th>
+              <th class="text-left">Date of birth</th>
+              <th class="text-left">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="item in getStudentInformation.slice().reverse()"
+              :key="item.name"
+            >
+              <td>{{ item.name }}</td>
+              <td>{{ item.email }}</td>
+              <td>{{ item.phone_number }}</td>
+              <td>{{ item.date }}</td>
+              <td>
+                <v-btn
+                  icon
+                  @click="getInformationInModal(item)"
+                  color="amber lighten-1"
+                  ><v-icon>mdi-pencil</v-icon></v-btn
+                >
+                <v-btn
+                  icon
+                  @click="deleteInfo(item._id)"
+                  color="pink lighten-1"
+                  class="white--text"
+                  ><v-icon>mdi-delete</v-icon></v-btn
+                >
+              </td>
+            </tr>
+          </tbody>
+        </template>
+      </v-simple-table>
+    </v-card>
 
     <template>
       <v-row justify="center">
         <v-dialog v-model="dialog" persistent max-width="600px">
           <v-card>
             <v-card-title>
-              <span class="headline">User Profile</span>
+              <span class="headline">Edit information</span>
             </v-card-title>
             <v-card-text>
               <v-container>
@@ -103,7 +110,7 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="hide"> Close </v-btn>
+              <v-btn color="red darken-1" text @click="hide"> Close </v-btn>
               <v-btn
                 color="blue darken-1"
                 text
@@ -116,11 +123,17 @@
         </v-dialog>
       </v-row>
     </template>
+    <v-snackbar v-model="isOpen" color="pink" top right>
+      <span class="center-text">
+        {{ text }}
+      </span>
+    </v-snackbar>
   </div>
 </template>
 
 
 <script>
+// import Snackbar from "../Snackbar";
 import { Meteor } from "meteor/meteor";
 import { Students } from "../../../imports/api/Models";
 export default {
@@ -132,6 +145,8 @@ export default {
       email: "",
       phone_number: "",
       date: null,
+      text: "",
+      isOpen: false,
       menu: false,
     };
   },
@@ -155,6 +170,8 @@ export default {
           console.log("shows error toast");
         } else {
           console.log("Deleted successfully");
+          this.isOpen = true;
+          this.text = "Deleted successfully";
         }
       });
     },

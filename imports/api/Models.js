@@ -5,6 +5,7 @@ export const Students = new Mongo.Collection("students");
 export const Subjects = new Mongo.Collection("subjects");
 
 Meteor.methods({
+  // Students
   addStudentsInfo(student) {
     return Students.insert(student);
   },
@@ -20,6 +21,27 @@ Meteor.methods({
           email: student.email,
           phone_number: student.phone,
           date: student.date,
+        },
+      }
+    );
+  },
+
+  // Subjects
+  addSubjectInfo(subject) {
+    return Subjects.insert(subject);
+  },
+  deleteSubjectInfo(subjectId) {
+    return Subjects.remove({ _id: subjectId });
+  },
+  updateSubjectInfo(subject) {
+    return Subjects.update(
+      {
+        _id: subject._id,
+      },
+      {
+        $set: {
+          subject_name: subject.subject_name,
+          students: subject.students,
         },
       }
     );

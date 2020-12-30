@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-app-bar color="amber--text text--accent-4" dense dark>
+    <v-app-bar rounded="lg">
       <v-toolbar-title>Meteor-Vue</v-toolbar-title>
 
       <v-spacer></v-spacer>
@@ -23,4 +23,13 @@ export default {};
 </script>
 
 <style scoped>
+a {
+  color: rgb(18, 100, 223);
+  font-weight: bold;
+  text-decoration: none;
+  margin: 0 10px;
+}
+a:active {
+  color: rgb(22, 212, 117);
+}
 </style>

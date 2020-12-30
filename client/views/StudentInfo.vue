@@ -1,8 +1,10 @@
 <template>
-  <div>
+  <v-container>
     <AddStudentInfo />
+    <br />
+    <div class="display-1">Information</div>
     <ViewStudentInformation />
-  </div>
+  </v-container>
 </template>
 
 <script>

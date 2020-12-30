@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <div>
     <v-subheader> Add student information </v-subheader>
     <v-form ref="form" v-model="valid" @submit.prevent="addInformation">
       <v-row>
@@ -62,14 +62,19 @@
         <v-btn
           :disabled="!valid"
           @click="addInformation"
-          elevation="2"
+          elevation="1"
           color="blue darken-2"
           class="white--text ttn"
           >Add information</v-btn
         >
       </div>
     </v-form>
-  </v-container>
+    <v-snackbar v-model="isOpen" color="success" top right>
+      <span class="text-center">
+        {{ text }}
+      </span>
+    </v-snackbar>
+  </div>
 </template>
 
 <script>
@@ -82,6 +87,8 @@ export default {
     phone_number: "",
     date: null,
     menu: false,
+    isOpen: false,
+    text: "",
     valid: false,
     nameRules: [
       (v) => !!v || "Name is required",
@@ -122,6 +129,8 @@ export default {
           console.log("show  error toast");
         } else {
           console.log("Created successfully");
+          this.isOpen = true;
+          this.text = "New information added";
           this.emptyTextField();
         }
       });
