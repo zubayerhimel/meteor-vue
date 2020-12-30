@@ -49,6 +49,7 @@
                       label="Subject name"
                       v-model="subject_name"
                       required
+                      outlined
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
@@ -104,9 +105,8 @@ export default {
     deleteInfo(subjectId) {
       Meteor.call("deleteSubjectInfo", subjectId, (err, res) => {
         if (err) {
-          console.log("shows error toast");
+          console.log("Something went wrong");
         } else {
-          console.log("Deleted successfully");
           this.isOpen = true;
           this.text = "Deleted successfully";
         }
@@ -127,7 +127,7 @@ export default {
       };
       Meteor.call("updateSubjectInfo", information, (err, res) => {
         if (err) {
-          console.log("show  error toast");
+          console.log("Something went wrong");
         } else {
           console.log("Updated successfully");
         }

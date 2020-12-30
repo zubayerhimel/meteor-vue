@@ -57,18 +57,31 @@ export default {
   }),
   meteor: {
     getStudentNames() {
-      let studentInfo = Students.find({}).fetch();
-      let names = studentInfo.map((el) => el.name);
-      this.items = names;
+      this.studentInformations = Students.find({}).fetch();
+      const studentNames = this.studentInformations.map((el) => el.name);
+      this.items = studentNames;
     },
   },
   methods: {
     addInformation() {
+      const students = this.students;
+      // console.log(students);
+
+      const studentIds = [];
+      for (let i = 0; i < this.studentInformations.length; i++) {
+        const currentData = this.studentInformations[i];
+        if (students.indexOf(currentData.name) !== -1) {
+          studentIds.push(currentData._id);
+        }
+      }
+      // console.log(studentIds);
       const subjectInformation = {
         subject_name: this.subject_name,
-        students: this.students,
+        students: studentIds,
       };
-      console.log(subjectInformation);
+      // console.log(subjectInformation);
+      // console.log(subjectInformation);
+      // console.log(this.studentInformations);
       Meteor.call("addSubjectInfo", subjectInformation, (err, res) => {
         if (err) {
           console.log("Something went wrong");

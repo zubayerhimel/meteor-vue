@@ -78,7 +78,7 @@
                       required
                     ></v-text-field>
                   </v-col>
-                  <v-col cols="12">
+                  <v-col cols="12" sm="6" md="4">
                     <v-menu
                       ref="menu"
                       v-model="menu"
@@ -123,6 +123,32 @@
         </v-dialog>
       </v-row>
     </template>
+    <template>
+      <v-row justify="center">
+        <v-dialog v-model="confirmDilog" persistent max-width="290">
+          <v-card>
+            <v-card-title class="headline">
+              Use Google's location service?
+            </v-card-title>
+            <v-card-text
+              >Let Google help apps determine location. This means sending
+              anonymous location data to Google, even when no apps are
+              running.</v-card-text
+            >
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="green darken-1" text @click="confirmDilog = false">
+                Disagree
+              </v-btn>
+              <v-btn color="green darken-1" text @click="deleteInfo">
+                Agree
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-row>
+    </template>
+
     <v-snackbar v-model="isOpen" color="pink" top right>
       <span class="center-text">
         {{ text }}
@@ -130,6 +156,7 @@
     </v-snackbar>
   </div>
 </template>
+
 
 
 <script>
@@ -140,6 +167,7 @@ export default {
   data() {
     return {
       dialog: false,
+      confirmDialog: false,
       _id: "",
       name: "",
       email: "",
